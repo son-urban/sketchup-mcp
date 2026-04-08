@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(unset:*)",
+      "Read(//d D:/coding/**)",
+      "Bash(python -c \"from sketchup_mcp.server import mcp; print\\('MCP server module loaded successfully'\\)\")",
+      "Bash(pip install:*)"
+    ]
+  }
+}

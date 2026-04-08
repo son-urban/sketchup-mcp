@@ -13,7 +13,7 @@
         "properties": {
           "type": {
             "type": "string",
-            "description": "Type of component to create",
+            "description": "Type of component to create (cube, cylinder, sphere, cone)",
             "default": "cube"
           },
           "position": {
@@ -118,10 +118,647 @@
         "properties": {
           "format": {
             "type": "string",
-            "description": "Export format (e.g. skp, obj, etc)",
+            "description": "Export format (e.g. skp, obj, dae, stl, png, jpg)",
             "default": "skp"
+          },
+          "width": {
+            "type": "integer",
+            "description": "Width for image exports (png, jpg)",
+            "default": 1920
+          },
+          "height": {
+            "type": "integer",
+            "description": "Height for image exports (png, jpg)",
+            "default": 1080
           }
         }
+      }
+    },
+    {
+      "name": "create_mortise_tenon",
+      "description": "Create a mortise and tenon joint between two components",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "mortise_id": {
+            "type": "string",
+            "description": "ID of the mortise component"
+          },
+          "tenon_id": {
+            "type": "string",
+            "description": "ID of the tenon component"
+          },
+          "width": {
+            "type": "number",
+            "description": "Width of the joint",
+            "default": 1.0
+          },
+          "height": {
+            "type": "number",
+            "description": "Height of the joint",
+            "default": 1.0
+          },
+          "depth": {
+            "type": "number",
+            "description": "Depth of the joint",
+            "default": 1.0
+          },
+          "offset_x": {
+            "type": "number",
+            "description": "X offset",
+            "default": 0.0
+          },
+          "offset_y": {
+            "type": "number",
+            "description": "Y offset",
+            "default": 0.0
+          },
+          "offset_z": {
+            "type": "number",
+            "description": "Z offset",
+            "default": 0.0
+          }
+        },
+        "required": ["mortise_id", "tenon_id"]
+      }
+    },
+    {
+      "name": "create_dovetail",
+      "description": "Create a dovetail joint between two components",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "tail_id": {
+            "type": "string",
+            "description": "ID of the tail component"
+          },
+          "pin_id": {
+            "type": "string",
+            "description": "ID of the pin component"
+          },
+          "width": {
+            "type": "number",
+            "description": "Width of the joint",
+            "default": 1.0
+          },
+          "height": {
+            "type": "number",
+            "description": "Height of the joint",
+            "default": 1.0
+          },
+          "depth": {
+            "type": "number",
+            "description": "Depth of the joint",
+            "default": 1.0
+          },
+          "angle": {
+            "type": "number",
+            "description": "Angle of dovetail in degrees",
+            "default": 15.0
+          },
+          "num_tails": {
+            "type": "integer",
+            "description": "Number of tails",
+            "default": 3
+          },
+          "offset_x": {
+            "type": "number",
+            "description": "X offset",
+            "default": 0.0
+          },
+          "offset_y": {
+            "type": "number",
+            "description": "Y offset",
+            "default": 0.0
+          },
+          "offset_z": {
+            "type": "number",
+            "description": "Z offset",
+            "default": 0.0
+          }
+        },
+        "required": ["tail_id", "pin_id"]
+      }
+    },
+    {
+      "name": "create_finger_joint",
+      "description": "Create a finger joint (box joint) between two components",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "board1_id": {
+            "type": "string",
+            "description": "ID of the first board"
+          },
+          "board2_id": {
+            "type": "string",
+            "description": "ID of the second board"
+          },
+          "width": {
+            "type": "number",
+            "description": "Width of the joint",
+            "default": 1.0
+          },
+          "height": {
+            "type": "number",
+            "description": "Height of the joint",
+            "default": 1.0
+          },
+          "depth": {
+            "type": "number",
+            "description": "Depth of the joint",
+            "default": 1.0
+          },
+          "num_fingers": {
+            "type": "integer",
+            "description": "Number of fingers",
+            "default": 5
+          },
+          "offset_x": {
+            "type": "number",
+            "description": "X offset",
+            "default": 0.0
+          },
+          "offset_y": {
+            "type": "number",
+            "description": "Y offset",
+            "default": 0.0
+          },
+          "offset_z": {
+            "type": "number",
+            "description": "Z offset",
+            "default": 0.0
+          }
+        },
+        "required": ["board1_id", "board2_id"]
+      }
+    },
+    {
+      "name": "eval_ruby",
+      "description": "Evaluate arbitrary Ruby code in SketchUp. Use with caution as this can modify the model",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Ruby code to execute in SketchUp"
+          }
+        },
+        "required": ["code"]
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "description": "Take a screenshot of the current SketchUp view and save to file",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "filename": {
+            "type": "string",
+            "description": "Name of the screenshot file (without extension). Auto-generated if not provided."
+          },
+          "width": {
+            "type": "integer",
+            "description": "Screenshot width in pixels",
+            "default": 1920
+          },
+          "height": {
+            "type": "integer",
+            "description": "Screenshot height in pixels",
+            "default": 1080
+          },
+          "file_format": {
+            "type": "string",
+            "description": "Image format - png or jpg",
+            "default": "png"
+          },
+          "transparent": {
+            "type": "boolean",
+            "description": "Use transparent background (PNG only)",
+            "default": false
+          },
+          "antialias": {
+            "type": "boolean",
+            "description": "Enable antialiasing",
+            "default": true
+          },
+          "save_path": {
+            "type": "string",
+            "description": "Directory to save screenshot. Uses temp dir if not specified."
+          }
+        }
+      }
+    },
+    {
+      "name": "get_buildings",
+      "description": "Get buildings from UrbanA::Core.state.su2ua_buildings",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "include_details": {
+            "type": "boolean",
+            "description": "If true, includes detailed building properties",
+            "default": true
+          },
+          "filter_selected": {
+            "type": "boolean",
+            "description": "If true, only returns currently selected buildings",
+            "default": false
+          }
+        }
+      }
+    },
+    {
+      "name": "get_urbanA_state_summary",
+      "description": "Get a summary of UrbanA::Core.state for quick debugging",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "get_selected_buildings",
+      "description": "Get details about currently selected UrbanA buildings",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "run_urbanA_query",
+      "description": "Execute UrbanA-specific Ruby code with automatic UrbanA module context",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "ruby_code": {
+            "type": "string",
+            "description": "Ruby code to execute. Pre-defined variables: state, buildings, blocks, project, model, selection"
+          }
+        },
+        "required": ["ruby_code"]
+      }
+    },
+    {
+      "name": "get_entity_info",
+      "description": "Get detailed information about a SketchUp entity by ID or name",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "entity_id": {
+            "type": "integer",
+            "description": "SketchUp entity ID to look up"
+          },
+          "entity_name": {
+            "type": "string",
+            "description": "Entity name to search for (if ID not provided)"
+          }
+        }
+      }
+    },
+    {
+      "name": "refresh_urbanA",
+      "description": "Refresh UrbanA state by re-scanning the model",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "set_building_land_use",
+      "description": "Set the land use for an UrbanA building",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "entity_id": {
+            "type": "integer",
+            "description": "SketchUp entity ID of the building"
+          },
+          "land_use": {
+            "type": "string",
+            "description": "New land use string (e.g., residential, commercial, office)"
+          }
+        },
+        "required": ["entity_id", "land_use"]
+      }
+    },
+    {
+      "name": "start_operation",
+      "description": "Start a new undoable operation in SketchUp. Must be paired with commit_operation or abort_operation",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the operation (shown in Edit menu)",
+            "default": "MCP Operation"
+          },
+          "transparent": {
+            "type": "boolean",
+            "description": "If true, operation won't create separate undo step",
+            "default": false
+          }
+        }
+      }
+    },
+    {
+      "name": "commit_operation",
+      "description": "Commit the current operation to the undo stack. Finalizes the operation started with start_operation",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "abort_operation",
+      "description": "Abort the current operation, reverting all changes made since start_operation",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "undo",
+      "description": "Undo the last operation(s) in SketchUp",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Number of operations to undo",
+            "default": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "redo",
+      "description": "Redo previously undone operation(s) in SketchUp",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Number of operations to redo",
+            "default": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "get_selection_detailed",
+      "description": "Get detailed information about currently selected entities including bounds, materials, and layers",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "select_by_id",
+      "description": "Select an entity by its ID",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "entity_id": {
+            "type": "integer",
+            "description": "The entity ID to select"
+          },
+          "add_to_selection": {
+            "type": "boolean",
+            "description": "If True, add to current selection; if False, replace selection",
+            "default": false
+          }
+        },
+        "required": ["entity_id"]
+      }
+    },
+    {
+      "name": "clear_selection",
+      "description": "Clear the current selection in SketchUp",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "select_by_bounding_box",
+      "description": "Select all entities within a bounding box",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "min_x": { "type": "number", "description": "Minimum X coordinate" },
+          "min_y": { "type": "number", "description": "Minimum Y coordinate" },
+          "min_z": { "type": "number", "description": "Minimum Z coordinate" },
+          "max_x": { "type": "number", "description": "Maximum X coordinate" },
+          "max_y": { "type": "number", "description": "Maximum Y coordinate" },
+          "max_z": { "type": "number", "description": "Maximum Z coordinate" },
+          "add_to_selection": {
+            "type": "boolean",
+            "description": "If True, add to current selection; if False, replace",
+            "default": false
+          }
+        },
+        "required": ["min_x", "min_y", "min_z", "max_x", "max_y", "max_z"]
+      }
+    },
+    {
+      "name": "get_entity_by_id",
+      "description": "Get detailed information about a specific entity by ID",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "entity_id": {
+            "type": "integer",
+            "description": "The entity ID to look up"
+          }
+        },
+        "required": ["entity_id"]
+      }
+    },
+    {
+      "name": "list_entities",
+      "description": "List entities in the current model",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "entity_type": {
+            "type": "string",
+            "description": "Optional filter by type (e.g., 'Face', 'Edge', 'Group', 'ComponentInstance')"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum number of entities to return",
+            "default": 100
+          }
+        }
+      }
+    },
+    {
+      "name": "get_entity_properties",
+      "description": "Get all properties of an entity including custom attributes",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "entity_id": {
+            "type": "integer",
+            "description": "The entity ID to get properties for"
+          }
+        },
+        "required": ["entity_id"]
+      }
+    },
+    {
+      "name": "get_camera",
+      "description": "Get the current camera position, target, and up vector",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "set_camera",
+      "description": "Set the camera position and orientation",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "eye_x": { "type": "number", "description": "Camera X position" },
+          "eye_y": { "type": "number", "description": "Camera Y position" },
+          "eye_z": { "type": "number", "description": "Camera Z position" },
+          "target_x": { "type": "number", "description": "Target X position" },
+          "target_y": { "type": "number", "description": "Target Y position" },
+          "target_z": { "type": "number", "description": "Target Z position" },
+          "up_x": { "type": "number", "description": "Up vector X", "default": 0 },
+          "up_y": { "type": "number", "description": "Up vector Y", "default": 0 },
+          "up_z": { "type": "number", "description": "Up vector Z", "default": 1 }
+        },
+        "required": ["eye_x", "eye_y", "eye_z", "target_x", "target_y", "target_z"]
+      }
+    },
+    {
+      "name": "zoom_selection",
+      "description": "Zoom the view to fit the current selection",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "zoom_extents",
+      "description": "Zoom the view to fit the entire model",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "get_model_info",
+      "description": "Get comprehensive information about the current model",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "list_layers",
+      "description": "List all layers in the current model",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "list_materials",
+      "description": "List all materials in the current model",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "list_definitions",
+      "description": "List all component definitions in the current model",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "reload_extension",
+      "description": "Reload a Ruby extension in SketchUp (useful for hot-reloading during development)",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "extension_name": {
+            "type": "string",
+            "description": "Name of the extension to reload"
+          }
+        },
+        "required": ["extension_name"]
+      }
+    },
+    {
+      "name": "reload_file",
+      "description": "Reload a specific Ruby file in SketchUp",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "description": "Absolute path to the Ruby file to reload"
+          }
+        },
+        "required": ["file_path"]
+      }
+    },
+    {
+      "name": "run_command",
+      "description": "Run a SketchUp command by its ID",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command_id": {
+            "type": "string",
+            "description": "The command ID to execute (e.g., 'selectSelectionTool:', 'viewZoomExtents:')"
+          }
+        },
+        "required": ["command_id"]
+      }
+    },
+    {
+      "name": "list_commands",
+      "description": "List available SketchUp commands",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "get_console_logs",
+      "description": "Get recent console logs from SketchUp",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "description": "Maximum number of log lines to return",
+            "default": 100
+          }
+        }
+      }
+    },
+    {
+      "name": "clear_console",
+      "description": "Clear the Ruby console in SketchUp",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "show_ruby_console",
+      "description": "Show the Ruby console window in SketchUp",
+      "parameters": {
+        "type": "object",
+        "properties": {}
       }
     }
   ],
@@ -131,4 +768,4 @@
       "args": ["sketchup_mcp"]
     }
   }
-} 
+}
